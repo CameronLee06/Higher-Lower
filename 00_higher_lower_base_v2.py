@@ -84,18 +84,20 @@ def intcheck(question, low=None, high=None, exit_code = None):
 
 
 # ***** Main Routine ******
+
+# initialise variables, set up holding list for game history
+rounds_played = 0 
+rounds_won = 0
+mode = "regular"
+
+game_summary = []
+
+
+# Get user input
 show_instructions = yes_no("Do you want to see the instructions?" )
 
 if show_instructions == "yes":
     instructions()
-
-# Ask user for # of rounds..
-rounds = intcheck("How many rounds <enter> for infinite: ", 1, exit_code = "")
-
-if rounds == "":
-    print("you chose infinite mode")
-else:
-    print("you asked for {} rounds".format(rounds))
 
 # checks that response is an integer    
 low_num = intcheck("Low Number: ")
@@ -105,75 +107,49 @@ print("You chose a low number of ", low_num)
 high_num = intcheck("High Number: ", low_num)
 print("You chose a high number of ", high_num)
 
-# loop four times for easy testing
-for item in range(0, 4):
+# Ask user for # of rounds..
+rounds = intcheck("How many rounds <enter> for infinite: ", 1, exit_code = "")
+
+
+# # loop four times for easy testing
+# for item in range(0, 4):
     
-    # checks that the response is either the exit code
-    # or a number between low_num and high_num
-    guess = intcheck("Guess: ", low_num, high_num, "xxx")
-    print("You guessed {}".format(guess))
+#     # checks that the response is either the exit code
+#     # or a number between low_num and high_num
+#     guess = intcheck("Guess: ", low_num, high_num, "xxx")
+#     print("You guessed {}".format(guess))
+
+# Rounds Heading 
+print()
+if rounds == "":
+    mode = "infinite"
+    rounds = 3
+
+if mode == "infinite":
+    heading = "Infinite Mode: Round {}".format(rounds_played + 1)
+    print(heading)
+else: 
+    heading = "Round {} of {}".format(rounds_played + 1, rounds)
 
 
-def check_rounds():
-    while True:
-        response = input("Choose 2 starting numbers (1 higher and 1 lower): ")
-
-        round_error = "Please type either <enter> / or an integer that is more than 0"
-        if response != "":
-            try: 
-                response = int(response)
-
-                if response <1:
-                    print(round_error)
-                    continue
-
-            except ValueError:
-                print(round_error)
-                continue
-
-        return response
-
-    
-
-
-
-# Main routine goes here...
-
-
-
-# get user input (low number, high number and number of rounds)
-
-
-rounds_played = 0 
-
+print(heading)
 
 # Ask user for # rounds, <enter> for infinite mode
-rounds = check_rounds()
 
-end_game = "no"
-while end_game =="no":
+while rounds_played <= rounds:
+    # generate the secret number
+    rounds_played += 1
 
-    # Rounds Heading 
-    print()
-    if rounds == "":
-        heading = "Infinite Mode: Round {}".format(rounds_played + 1)
-        print(heading)
+    if mode == "infinite":
+        rounds += 1
 
-    else: 
-        heading = "Round {} of {}".format(rounds_played + 1, rounds)
-
-
-    print(heading)
+    # Put guessing and comparing loop here.
     guess = input("Guess")
+    
 
 
     # End game if exit code is typed
     if guess == "xxx" or rounds_played == rounds - 1:
         break
-
-    # rest of loop / game
-    print("You chose {}".format(guess))
-
-    rounds_played +=1
 
 print("Thank you for playing")
