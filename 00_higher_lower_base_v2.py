@@ -20,6 +20,7 @@ def yes_no(question):
             print("Please answer yes / no")
 
 
+
 def instructions():
     print(
         """
@@ -90,6 +91,8 @@ rounds_played = 0
 rounds_won = 0
 mode = "regular"
 
+end_game = "no"
+
 game_summary = []
 
 
@@ -136,20 +139,35 @@ print(heading)
 
 # Ask user for # rounds, <enter> for infinite mode
 
-while rounds_played <= rounds:
-    # generate the secret number
+while rounds_played <= rounds and end_game == "no":
+    
     rounds_played += 1
+    
+    # generate the secret number
+    secret = random.randint(low_num, high_num)
+     #print("Spoiler alert", secret)
 
     if mode == "infinite":
         rounds += 1
 
+
+    guess = ""
+    while guess != secret:
     # Put guessing and comparing loop here.
-    guess = input("Guess")
-    
+        guess = intcheck("Guess", low_num, high_num, "xxx")
+        
+        # End game if exit code is typed
+        if guess == "xxx" or rounds_played == rounds - 1:
+            end_game = "yes"
+            break
 
+        elif guess == secret:
+            print("Well done, you guessed correct")
+            break
+        if guess <= secret:
+            print ("Higher")
+        elif guess >= secret:
+            print ("Lower")
 
-    # End game if exit code is typed
-    if guess == "xxx" or rounds_played == rounds - 1:
-        break
 
 print("Thank you for playing")
