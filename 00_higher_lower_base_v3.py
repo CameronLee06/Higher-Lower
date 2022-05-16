@@ -147,14 +147,18 @@ while rounds_played < rounds and end_game == "no":
     print("Spoiler alert", secret)
     print()
 
+    guesses_allowed = 5
+    guesses_used = 0
+
     if mode == "infinite":
         rounds += 1
 
 
     guess = ""
-    while guess != secret:
+    while guess != secret and guesses_used <= guesses_allowed:
     # Put guessing and comparing loop here.
         guess = intcheck("Guess: ", low_num, high_num, "xxx")
+        guesses_used += 1
         
         # End game if exit code is typed
         if guess == "xxx" or rounds_played > rounds:
@@ -168,6 +172,11 @@ while rounds_played < rounds and end_game == "no":
             print ("Higher")
         elif guess >= secret:
             print ("Lower")
+
+        if guesses_used >= guesses_allowed:
+            print("sorry you lose")
+            end_game = "yes"
+            break
 
 
 print("Thank you for playing")
