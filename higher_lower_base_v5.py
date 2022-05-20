@@ -88,7 +88,7 @@ def intcheck(question, low=None, high=None, exit_code = None):
 
 # initialise variables, set up holding list for game history
 rounds_played = 0 
-rounds_won = 0
+rounds_lost = 0
 mode = "regular"
 
 end_game = "no"
@@ -139,8 +139,8 @@ while rounds_played < rounds and end_game == "no":
     
     # generate the secret number
     secret = random.randint(low_num, high_num)
-    print("Spoiler alert", secret)
-    print()
+    #print("Spoiler alert", secret)
+    # print()
 
 
 
@@ -161,7 +161,7 @@ while rounds_played < rounds and end_game == "no":
             break
 
         elif guess == secret:
-            print("Well done, you guessed correct")
+            feedback = "Well done, you got it in {} guesses".format(len(guesses_used))
             break
         if guess <= secret:
             print ("Higher")
@@ -169,9 +169,29 @@ while rounds_played < rounds and end_game == "no":
             print ("Lower")
 
         if len(guesses_used) >= guesses_allowed:
-            print("sorry you lose")
-            end_game = "yes"
+            feedback = "sorry you lose"
+            rounds_lost += 1
+            #end_game = "yes"
             break
 
+    outcome = "Round {}: {}".format(rounds_played, feedback)
+    game_summary.append(outcome)
+
+rounds_won = rounds_played - rounds_lost
+
+# **** Calculate Game Stats ******
+percent_win = rounds_won / rounds_played * 100
+percent_lose = rounds_lost / rounds_played * 100
+
+
+print()
+print ("***** Game History *****")
+for game in game_summary:
+    print(game)
+
+print()
+# displays game stats with % values to the nearest whole number
+print("******* Game Statistics *******")
+print ("Win {}, ({:.0f}%) \nLoss: {}, " "({:.0f}%)".format(rounds_won,percent_win,rounds_lost,percent_lose))
 
 print("Thank you for playing")
