@@ -139,8 +139,8 @@ while rounds_played < rounds and end_game == "no":
     
     # generate the secret number
     secret = random.randint(low_num, high_num)
-    #print("Spoiler alert", secret)
-    # print()
+    print("Spoiler alert", secret)
+    print()
 
 
 
@@ -150,8 +150,17 @@ while rounds_played < rounds and end_game == "no":
 
     guess = ""
     while guess != secret and len(guesses_used) <= guesses_allowed:
+
+        guesses_left = guesses_allowed - len(guesses_used)
     # Put guessing and comparing loop here.
         guess = intcheck("Guess: ", low_num, high_num, "xxx")
+    
+        if guess in guesses_used:
+            print("you already guessed that number! please try again,"
+            " You still have {} guesses left".format(guesses_left, guesses_used))
+            continue
+
+
         guesses_used.append(guess)
         
         # End game if exit code is typed
