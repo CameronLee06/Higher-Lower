@@ -1,6 +1,8 @@
  
 import random
 
+import math
+
 def yes_no(question):
 
     valid = False
@@ -110,7 +112,11 @@ high_num = intcheck("High Number: ", low_num)
 
 
 # calculate max guesses below
-max_guesses = 3
+var_range = high_num - low_num + 1
+max_raw = math.log2(var_range)
+max_upped = math.ceil(max_raw)
+max_guesses = max_upped + 1
+print ("Max Guesses: {}".format(max_guesses))
 
 # Ask user for # of rounds..
 rounds = intcheck("How many rounds <enter> for infinite: ", 1, exit_code = "")
@@ -160,24 +166,9 @@ while rounds_played < rounds and end_game == "no":
             " You still have {} guesses left".format(guesses_left, guesses_used))
             continue
 
+      
         guesses_used.append(guess)
         
-        # HLcomponent 11- Maximum Guesses Calculator
-
-    import math
-
-    for item in range(0,4):
-
-        low = int(input("Low: "))
-        high = int(input("High"))
-
-        range = high - low + 1
-        max_raw = math.log2(range)
-        max_upped = math.ceil(max_raw)
-        max_guesses = max_upped + 1
-        print ("Max Guesses: {}".format(max_guesses))
-
-        print()
         # End game if exit code is typed
          
         if guess == "xxx" or rounds_played > rounds:
@@ -191,6 +182,8 @@ while rounds_played < rounds and end_game == "no":
             print ("Higher")
         elif guess >= secret:
             print ("Lower")
+              
+        print()
 
         if len(guesses_used) >= guesses_allowed:
             feedback = "sorry you lose"
@@ -199,6 +192,8 @@ while rounds_played < rounds and end_game == "no":
             break
 
     outcome = "Round {}: {}".format(rounds_played, feedback)
+    print(feedback)
+    print()
     game_summary.append(outcome)
 
 rounds_won = rounds_played - rounds_lost
