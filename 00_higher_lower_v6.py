@@ -160,9 +160,24 @@ while rounds_played < rounds and end_game == "no":
             " You still have {} guesses left".format(guesses_left, guesses_used))
             continue
 
-
         guesses_used.append(guess)
         
+        # HLcomponent 11- Maximum Guesses Calculator
+
+    import math
+
+    for item in range(0,4):
+
+        low = int(input("Low: "))
+        high = int(input("High"))
+
+        range = high - low + 1
+        max_raw = math.log2(range)
+        max_upped = math.ceil(max_raw)
+        max_guesses = max_upped + 1
+        print ("Max Guesses: {}".format(max_guesses))
+
+        print()
         # End game if exit code is typed
          
         if guess == "xxx" or rounds_played > rounds:
